@@ -1,10 +1,10 @@
 package com.example.validation.dto;
 
+import com.example.validation.annotation.YearMonth;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class User {
 
@@ -22,9 +22,18 @@ public class User {
     @JsonProperty("phone_number")
     private String phoneNumber;
 
-    @Size(min = 6, max = 6)
-    @JsonProperty("req_year_month")
+    @YearMonth
     private String reqYearMonth; // yyyyMM
+
+    private List<Car> cars;
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
 
     public String getReqYearMonth() {
         return reqYearMonth;
@@ -34,17 +43,6 @@ public class User {
         this.reqYearMonth = reqYearMonth;
     }
 
-    @AssertTrue(message = "yyyyMM의 형식에 맞지 않습니다.")
-    public boolean isReqYearMonth() { // boolean을 return할 때에는 method명에 is가 붙어야 함
-        System.out.println("assert true call");
-        try{
-            LocalDate localDate = LocalDate.parse(getReqYearMonth()+"01", DateTimeFormatter.ofPattern("yyyyMMdd"));
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
-    }
 
     public String getName() {
         return name;
@@ -86,6 +84,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", reqYearMonth='" + reqYearMonth + '\'' +
+                ", cars=" + cars +
                 '}';
     }
+
 }

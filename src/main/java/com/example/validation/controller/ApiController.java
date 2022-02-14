@@ -1,6 +1,7 @@
 package com.example.validation.controller;
 
 import com.example.validation.dto.User;
+import com.example.validation.dto.User2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,29 @@ public class ApiController {
 
     @PostMapping("/user")
     public ResponseEntity user(@Valid @RequestBody User user, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            bindingResult.getAllErrors().forEach(objectError -> {
+                FieldError field = (FieldError) objectError;
+                String message = objectError.getDefaultMessage();
+
+                System.out.println("field: " + field);
+                System.out.println(message);
+
+                sb.append("field: " + field.getField());
+                sb.append("message: " + message);
+
+            });
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sb.toString());
+        }
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/user2")
+    public ResponseEntity user2(@Valid @RequestBody User2 user, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             StringBuilder sb = new StringBuilder();
