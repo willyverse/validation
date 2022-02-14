@@ -23,5 +23,5 @@ public @interface YearMonth {
 
     Class<? extends Payload>[] payload() default { };
 
-    String pattern() default "yyyyMMdd";
+    String pattern() default "yyyyMMd";
 }
